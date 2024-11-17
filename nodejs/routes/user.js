@@ -20,7 +20,8 @@ export const signInSchema = z.object({
 router.post("/signup", async (req, res) => {
   console.log("dfg");
   try {
-    userSchema.parse(req.body);
+    console.log("req.body", req.body);
+    signupSchema.parse(req.body);
     const userObject = new User(req.body);
     const userAlreadyExist = await User.findOne({
       username: req?.body?.username,
@@ -43,6 +44,7 @@ router.post("/signup", async (req, res) => {
 
 router.get("/signin", async (req, res) => {
   try {
+    
     signInSchema.parse(req.body);
     const { username, password } = req.body;
     const userExist = await User.findOne({

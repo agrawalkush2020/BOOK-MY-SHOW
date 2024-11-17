@@ -15,12 +15,7 @@ mongoose
 
 import userRouter from "./routes/user.js";
 
-app.post("/users", userRouter);
-app.get("/make", (req, res) => {
-  console.log("ddf");
-  res.json({
-    success: true,
-  });
-});
+app.use("/users", userRouter);
+
 
 app.listen(3000);
