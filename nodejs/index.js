@@ -14,8 +14,11 @@ mongoose
   })
 
 import userRouter from "./routes/user.js";
+import adminRouter from "./routes/admin.js"
 
 app.use("/users", userRouter);
+app.use("/admin", adminRouter)
+app.use("/movies", moviesRouter);
 
 
 app.listen(3000);
