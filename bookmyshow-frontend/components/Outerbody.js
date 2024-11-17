@@ -4,7 +4,7 @@ import SignUp from "./SignUp";
 
 import Login from "./Login";
 import FirstPage from "./FirstPage";
-import Input from "./Input";
+import Input from "./sharedComponents/Input";
 
 
 const Outerbody = ({

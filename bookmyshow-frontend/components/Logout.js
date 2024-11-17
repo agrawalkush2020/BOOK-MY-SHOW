@@ -22,8 +22,7 @@ const Logout = ({
                 const data = await response.json();
                 if (data.success) {
                     // Clear session cookie from the frontend
-                    document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    
+                    localStorage.removeItem("name_of_localStorage_variable_to_remove");
                     // Redirect to login page or home
                     router.push('/users/login');
                 }

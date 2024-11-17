@@ -1,98 +1,92 @@
 "use client";
-import React, {useState} from "react";
-import Input from "./Input";
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import Input from "./sharedComponents/Input";
+import { useRouter } from "next/navigation";
 
-const Login = ({
+const Login = ({}) => {
+  const router = useRouter();
 
-}) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    const router = useRouter();
+  const handleUsernameChange = (value) => {
+    setUsernameneNumber(value);
+  };
 
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [password, setPassword] = useState('');
+  const handlePasswordChange = (value) => {
+    setPassword(value);
+  };
 
-    const handlePhoneNumberChange = (value) => {
-        setPhoneNumber(value);
+  const makeTheCall = async (url, body) => {
+    let response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // This ensures cookies are sent and received
+    });
+
+    return response;
+  };
+
+  const handleTheSubmit = async (event) => {
+    if (!phoneNumber || !password) {
+      alert('Don"t leave the input empty');
+      return;
     }
 
-    const handlePasswordChange = (value) => {
-        setPassword(value);
-    }
+    event.preventDefault();
 
+    // debugger
 
-    const makeTheCall = async (url, body) => {
-        let response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include', // This ensures cookies are sent and received
-        })
+    let url = "http://127.0.0.1:8000/" + "users/login/";
+    let body = {
+      phoneNumber,
+      password: password,
+    };
 
-        return response;
-    }
+    try {
+      let response = await makeTheCall(url, body);
 
-    const handleTheSubmit = async (event) => {
-
-        if(!phoneNumber || !password){
-            alert('Don"t leave the input empty')
-            return ;
+      if (response.ok) {
+        const data = await response.json();
+        if (data?.success && data?.token) {
+          localStorage.setItem("token", `Bearer ${data.token}`);
+          router.push("/movies");
         }
-
-        event.preventDefault();
-
-        // debugger
-
-        let url = 'http://127.0.0.1:8000/' + "users/login/";
-        let body = {
-            phoneNumber,
-            password: password,
-        };
-
-        let response = await makeTheCall(url, body);
-        debugger
-        if(response.ok){
-            const data = await response.json();
-            
-            if(data?.success){
-                // user logged In
-                router.push('/movies');
-            }
-            else{
-                alert(data?.message);
-            }
-        }
-        else{
-            alert('Some thing went Wrong!!');
-        }
-
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error occurred:", error.message);
+      alert(`Error occurred:, ${error.message}`);
     }
+  };
 
-    return (
-        <form onSubmit={handleTheSubmit}>
-            <Input
-                name={"phoneNumber"}
-                type={"number"}
-                label={"Phone Number:"}
-                value={phoneNumber}
-                placeHolder={"Enter your phone number"}
-                handleChange={handlePhoneNumberChange}
-            />
-            <Input
-                name={"password"}
-                type={"password"}
-                label={"Password:"}
-                value={password}
-                placeHolder={"Enter your password"}
-                handleChange={handlePasswordChange}
-            />
-            <button className="bg-orange-600" type="submit">
-                Log In
-            </button>
-        </form>
-    )
-}
+  return (
+    <form onSubmit={handleTheSubmit}>
+      <Input
+        name={"username"}
+        type={"text"}
+        label={"Username:"}
+        value={username}
+        placeHolder={"Enter your username"}
+        handleChange={handleUsernameChange}
+      />
+      <Input
+        name={"password"}
+        type={"password"}
+        label={"Password:"}
+        value={password}
+        placeHolder={"Enter your password"}
+        handleChange={handlePasswordChange}
+      />
+      <button className="bg-orange-600" type="submit">
+        Log In
+      </button>
+    </form>
+  );
+};
 
 export default Login;

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Input from "./Input";
+import Input from "./sharedComponents/Input";
 
 const LandingPage = ({
 

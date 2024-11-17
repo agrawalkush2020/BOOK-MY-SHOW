@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import DropDown from "./DropDown";
-import Input from "./Input";
+import DropDown from "./sharedComponents/DropDown";
+import Input from "./sharedComponents/Input";
 import { useRouter } from 'next/navigation';
 
 
