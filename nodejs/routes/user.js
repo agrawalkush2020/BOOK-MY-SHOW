@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import { z } from "zod";
 import { User } from "../db/user.js";
-import { Jwt } from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from "../config.js";
 
 export const signupSchema = z.object({
@@ -18,6 +18,7 @@ export const signInSchema = z.object({
 });
 
 router.post("/signup", async (req, res) => {
+  console.log("dfg");
   try {
     userSchema.parse(req.body);
     const userObject = new User(req.body);
