@@ -42,9 +42,9 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.get("/signin", async (req, res) => {
+router.post("/signin", async (req, res) => {
   try {
-    
+    console.log("req.body", req.body);
     signInSchema.parse(req.body);
     const { username, password } = req.body;
     const userExist = await User.findOne({
@@ -58,7 +58,7 @@ router.get("/signin", async (req, res) => {
     }
     var token = jwt.sign({ username }, JWT_SECRET);
     res.json({
-      token,
+      token
     });
   } catch (error) {
     res.status(401).json({
