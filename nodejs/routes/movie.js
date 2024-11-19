@@ -6,72 +6,72 @@ const router = express.Router();
 router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
   const city = req?.params?.city || "New Delhi";
   const cityObject = await City.findOne({ name: city });
-  if (!cityObject) {
-    res.json({
-      movies: [],
-    });
-  }
-
-  const cinemas = await Cinema.find({ city: cityObject?._id });
-  if (!cinemas) {
-    res.json({
-      movies: [],
-    });
-  }
-
-  let moviesIds = [];
-  for (const cinemaObj of cinemas) {
-    const shows = await Show.find({ cinema: cinemaObj?._id });
-    {
-      shows &&
-        shows.forEach((show) => {
-          if (!moviesIds.includes(show?.movie)) {
-            moviesIds.push(show?.movie);
+  if (cityObject) {
+    try {
+      const cinemas = await Cinema.find({ city: cityObject?._id });
+      if (cinemas) {
+        let moviesIds = [];
+        for (const cinemaObj of cinemas) {
+          const shows = await Show.find({ cinema: cinemaObj?._id });
+          {
+            shows &&
+              shows.forEach((show) => {
+                if (!moviesIds.includes(show?.movie)) {
+                  moviesIds.push(show?.movie);
+                }
+              });
           }
-        });
+        }
+        if (moviesIds.length) {
+          let movies = [];
+          for (let id of moviesIds) {
+            const movie = await Movie.findById({ _id: id });
+            movies.push(movie);
+          }
+
+          res.json({
+            message: "success !!",
+            movies,
+          });
+        }
+      }
+    } catch (error) {
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-  }
-  if (!moviesIds.length) {
+  } else {
     res.json({
       movies: [],
     });
   }
-
-  let movies = [];
-  for (let id of moviesIds) {
-    const movie = await Movie.findById({ _id: id });
-    movies.push(movie);
-  }
-
-  res.json({
-    message: "success !!",
-    movies,
-  });
 });
 
 router.post("/get_all_shows", authMiddleware, async (req, res) => {
   const city = req?.body?.city;
   const movie = req?.body?.movie;
 
-  // finding the movie object
-  const movieObject = await Movie.find({ name: movie });
-  // finding the city object
-  const cityObject = await City.findOne({ name: city });
-  const cinemas = await Cinema.find({ city: cityObject?._id });
+  try {
+    // finding the movie object
+    const movieObject = await Movie.find({ name: movie });
+    // finding the city object
+    const cityObject = await City.findOne({ name: city });
+    const cinemas = await Cinema.find({ city: cityObject?._id });
 
-  let allShows = [];
-  for (const cinemaObj of cinemas) { 
-    const shows = await Show.find({
-      cinema: cinemaObj?._id,
-      movie: movieObject[0]?._id,
+    let allShows = [];
+    for (const cinemaObj of cinemas) {
+      const shows = await Show.find({
+        cinema: cinemaObj?._id,
+        movie: movieObject[0]?._id,
+      });
+
+      shows && allShows.push(...shows);
+    }
+
+    res.json({
+      allShows,
     });
-
-    shows && allShows.push(...shows);
+  } catch (error) {
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-
-  res.json({
-    allShows,
-  });
 });
 
 export default router;
