@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config';
-export const authMiddleware = (req, res, next) => {
-  const authHeader = req?.headers?.authoirzation;
 
-  if (!authHeader || authHeader.startsWith("Bearer ")) {
+export const authMiddleware = (req, res, next) => {
+  const authHeader = req?.headers?.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     res.status(401).json({
-      message: "please send the auth headers properly !!",
+      message: "user is not Authenticated !!",
     });
   }
 
