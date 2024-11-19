@@ -1,6 +1,6 @@
 import express from "express";
 import { authMiddleware } from "../middleware/middleware.js";
-import { Cinema, City } from "../db/movie.js";
+import { Cinema, City, Movie, Show } from "../db/movie.js";
 const router = express.Router();
 
 router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
@@ -11,13 +11,40 @@ router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
             movies:[]
         })
     }
-    console.log("cityObject",cityObject);
+    
+    const cinemas = await Cinema.find({city:cityObject?._id});
+    if(!cinemas){
+        res.json({
+            movies:[]
+        })
+    }
 
+    let moviesIds = [];
+    for (const cinemaObj of cinemas) {
+        const shows = await Show.find({ cinema: cinemaObj?._id });
+        {shows && (
+            shows.forEach((show)=>{
+                if(!moviesIds.includes(show?.movie)){
+                    moviesIds.push(show?.movie);
+                }
+            })
+        )}
+    }
+    if(!moviesIds.length){
+        res.json({
+            movies:[]
+        })
+    } 
 
-    // we will find all the cinemas from the movies
-    // const cinemas = await Cinema.find({city:cityObject?._id});
+    let movies=[];
+    for(let id of moviesIds){
+        const movie = await Movie.findById({_id:id});
+        movies.push(movie);
+    } 
+
     res.json({
-        message:"success !!"
+        message:"success !!",
+        movies
     });
 });
 
