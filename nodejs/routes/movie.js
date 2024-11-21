@@ -1,6 +1,7 @@
 import express from "express";
 import { authMiddleware } from "../middleware/middleware.js";
 import {
+  Booking,
   Cinema,
   City,
   Mall,
@@ -11,6 +12,7 @@ import {
 import { TOTAL_SEATS } from "../config.js";
 import { sendEmail } from "../mailling.js";
 import { User } from "../db/user.js";
+import { getCurrentBookingTime } from "../utils/dateAndTime.js";
 const router = express.Router();
 
 router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
@@ -103,29 +105,37 @@ router.post("/get_all_shows", authMiddleware, async (req, res) => {
 
 router.get("/confirm_the_ticket", authMiddleware, async (req, res) => {
   const username = req.username;
-  const seatNumber = Math.floor((Math.random()*TOTAL_SEATS))+1;
+  const showId = req?.query?.showId;
+  const seatNumber = Math.floor(Math.random() * TOTAL_SEATS) + 1;
 
   try {
-    const userObject = await User.find({username});
+    const userObject = await User.find({ username });
+    const showObject = await Show.find({_id:showId});
+
     const info = await sendEmail(
       userObject[0]?.email,
       "Yuppee!!, Seat confirmed",
       `congratulations, your seat number is ${seatNumber}`
-      );
-    console.log("info",info);
-    res.json({
-      sucess:true,
-      seatNumber
-    })
-    
-  } catch (error) {
-    console.log("error",error);
-    res.json({
-      sucess:false,
-      message:"Unable to book your seat !!"
-    })
-  }
+    );
 
+    const booking = await Booking.create({
+      show: showObject[0]?._id,
+      username,
+      seatNumber,
+      bookingTime: getCurrentBookingTime()
+    });
+
+    res.json({
+      sucess: true,
+      seatNumber,
+    });
+  } catch (error) {
+    console.log("error", error);
+    res.json({
+      sucess: false,
+      message: "Unable to book your seat !!",
+    });
+  }
 });
 
 export default router;
