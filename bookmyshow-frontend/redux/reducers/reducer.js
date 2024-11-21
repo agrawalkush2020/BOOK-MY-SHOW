@@ -1,6 +1,7 @@
 // reducer.js
 import { act } from "react";
 import { SET_MOVIES_LIST, RESET_MOVIES_LIST } from "./actionTypes";
+import { RESET_SHOWS_LIST, SET_SHOWS_LIST } from "../actions/actionTypes";
 
 const initialState = {
   moviesList: [
@@ -17,6 +18,17 @@ const initialState = {
       timings: ["10:00 AM", "09:30 PM"],
     },
   ],
+  showsList: [
+    {
+      id: "673ccd78ae979c346c674391",
+      serviceProvider: "PVR Cinemas",
+      mall: "Select Citywalk",
+      startTime: "2024-11-19T09:30:00.000Z",
+      endTime: "2024-11-19T11:58:00.000Z",
+      intervalTime: "2024-11-19T10:30:00.000Z",
+      interval: 15,
+    },
+  ],
 };
 
 const Reducer = (state = initialState, action) => {
@@ -25,6 +37,11 @@ const Reducer = (state = initialState, action) => {
       return { ...state, moviesList: action.payload };
     case RESET_MOVIES_LIST:
       return { ...state, moviesList: initialState.moviesList };
+    case SET_SHOWS_LIST:
+      return { ...state, showsList: action.payload };
+    case RESET_SHOWS_LIST:
+      return { ...state, showsList: initialState.showsList };
+
     default:
       return state;
   }
