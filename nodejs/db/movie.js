@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, mongo } from "mongoose";
+import { number, string } from "zod";
 
 // service provider
 const serviceProviderScheama = new Schema({
@@ -71,5 +72,16 @@ const showSchema = new Schema({
     interval:Number,    //in minutes
 })
 export const Show = mongoose.model("Show", showSchema);
+
+
+// Booking records
+const bookingScheama = new Schema({
+  show:{ type: Schema.Types.ObjectId, ref: "Show" },
+  username:String,
+  seatNumber:Number,
+  bookingTime:Date,
+})
+
+export const Booking = mongoose.model("Booking", bookingScheama);
 
  
