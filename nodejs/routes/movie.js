@@ -1,6 +1,6 @@
 import express from "express";
 import { authMiddleware } from "../middleware/middleware.js";
-import { Cinema, City, Movie, Show } from "../db/movie.js";
+import { Cinema, City, Mall, Movie, ServiceProvider, Show } from "../db/movie.js";
 const router = express.Router();
 
 router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
@@ -30,7 +30,7 @@ router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
           }
 
           res.json({
-            message: "success !!",
+            sucess:true,
             movies,
           });
         }
@@ -40,6 +40,7 @@ router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
     }
   } else {
     res.json({
+      sucess: false,
       movies: [],
     });
   }
@@ -50,9 +51,7 @@ router.post("/get_all_shows", authMiddleware, async (req, res) => {
   const movie = req?.body?.movie;
 
   try {
-    // finding the movie object
     const movieObject = await Movie.find({ name: movie });
-    // finding the city object
     const cityObject = await City.findOne({ name: city });
     const cinemas = await Cinema.find({ city: cityObject?._id });
 
@@ -63,14 +62,29 @@ router.post("/get_all_shows", authMiddleware, async (req, res) => {
         movie: movieObject[0]?._id,
       });
 
-      shows && allShows.push(...shows);
+      const serviceProviderObject = await ServiceProvider.find({_id:cinemaObj?.serviceProvider});
+      const mallObject = await Mall.find({_id:cinemaObj?.mall});
+
+      for(let show of shows){
+        allShows.push({
+          id:show?._id,
+          serviceProvider:serviceProviderObject[0]?.name,
+          mall:mallObject[0]?.name,
+          startTime:show?.startTime,
+          startTime:  show?.startTime,
+          endTime:  show?.endTime,
+          intervalTime: show?.intervalTime,
+          interval: show?.interval,
+        })
+      }
     }
 
     res.json({
+      sucess:true,
       allShows,
     });
   } catch (error) {
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({sucess:false, error: "Internal Server Error" });
   }
 });
 
