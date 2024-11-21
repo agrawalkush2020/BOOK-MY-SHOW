@@ -28,6 +28,7 @@ router.post("/signup", async (req, res) => {
     });
     if (userAlreadyExist) {
       res.status(401).json({
+        success:false,
         message: "user already exist!",
       });
     }
@@ -37,6 +38,7 @@ router.post("/signup", async (req, res) => {
     });
   } catch (error) {
     res.status(401).json({
+      success:false,
       message: `Fill proper credentials ${error.message} !`,
     });
   }
@@ -53,6 +55,7 @@ router.post("/signin", async (req, res) => {
     });
     if (!userExist) {
       res.status(401).json({
+        success:false,
         message: "User does not Exist!, Incorrect username or password",
       });
     }
@@ -62,6 +65,7 @@ router.post("/signin", async (req, res) => {
     });
   } catch (error) {
     res.status(401).json({
+      success:false,
       message: `Fill proper credentials ${error.message} !`,
     });
   }

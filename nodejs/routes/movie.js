@@ -47,7 +47,9 @@ router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
         }
       }
     } catch (error) {
-      return res.status(500).json({ error: "Internal Server Error" });
+      return res
+        .status(500)
+        .json({ sucess: false, error: "Internal Server Error" });
     }
   } else {
     res.json({
@@ -110,7 +112,7 @@ router.get("/confirm_the_ticket", authMiddleware, async (req, res) => {
 
   try {
     const userObject = await User.find({ username });
-    const showObject = await Show.find({_id:showId});
+    const showObject = await Show.find({ _id: showId });
 
     const info = await sendEmail(
       userObject[0]?.email,
@@ -122,7 +124,7 @@ router.get("/confirm_the_ticket", authMiddleware, async (req, res) => {
       show: showObject[0]?._id,
       username,
       seatNumber,
-      bookingTime: getCurrentBookingTime()
+      bookingTime: getCurrentBookingTime(),
     });
 
     res.json({
