@@ -9,6 +9,8 @@ import {
   Show,
 } from "../db/movie.js";
 import { TOTAL_SEATS } from "../config.js";
+import { sendEmail } from "../mailling.js";
+import { User } from "../db/user.js";
 const router = express.Router();
 
 router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
@@ -103,10 +105,26 @@ router.get("/confirm_the_ticket", authMiddleware, async (req, res) => {
   const username = req.username;
   const seatNumber = Math.floor((Math.random()*TOTAL_SEATS))+1;
 
-  res.json({
-    username,
-    seatNumber
-  })
+  try {
+    const userObject = await User.find({username});
+    const info = await sendEmail(
+      userObject[0]?.email,
+      "Yuppee!!, Seat confirmed",
+      `congratulations, your seat number is ${seatNumber}`
+      );
+    console.log("info",info);
+    res.json({
+      sucess:true,
+      seatNumber
+    })
+    
+  } catch (error) {
+    console.log("error",error);
+    res.json({
+      sucess:false,
+      message:"Unable to book your seat !!"
+    })
+  }
 
 });
 
