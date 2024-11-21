@@ -18,7 +18,6 @@ mongoose
     console.log("error does not connect ");
   })
 
-
 app.use("/users", userRouter);
 app.use("/admin", adminRouter)
 app.use("/movies", movieRouter);

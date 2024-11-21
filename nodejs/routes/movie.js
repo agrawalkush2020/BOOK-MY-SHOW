@@ -1,6 +1,14 @@
 import express from "express";
 import { authMiddleware } from "../middleware/middleware.js";
-import { Cinema, City, Mall, Movie, ServiceProvider, Show } from "../db/movie.js";
+import {
+  Cinema,
+  City,
+  Mall,
+  Movie,
+  ServiceProvider,
+  Show,
+} from "../db/movie.js";
+import { TOTAL_SEATS } from "../config.js";
 const router = express.Router();
 
 router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
@@ -28,9 +36,8 @@ router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
             const movie = await Movie.findById({ _id: id });
             movies.push(movie);
           }
-
           res.json({
-            sucess:true,
+            sucess: true,
             movies,
           });
         }
@@ -62,30 +69,45 @@ router.post("/get_all_shows", authMiddleware, async (req, res) => {
         movie: movieObject[0]?._id,
       });
 
-      const serviceProviderObject = await ServiceProvider.find({_id:cinemaObj?.serviceProvider});
-      const mallObject = await Mall.find({_id:cinemaObj?.mall});
+      const serviceProviderObject = await ServiceProvider.find({
+        _id: cinemaObj?.serviceProvider,
+      });
+      const mallObject = await Mall.find({ _id: cinemaObj?.mall });
 
-      for(let show of shows){
+      for (let show of shows) {
         allShows.push({
-          id:show?._id,
-          serviceProvider:serviceProviderObject[0]?.name,
-          mall:mallObject[0]?.name,
-          startTime:show?.startTime,
-          startTime:  show?.startTime,
-          endTime:  show?.endTime,
+          id: show?._id,
+          serviceProvider: serviceProviderObject[0]?.name,
+          mall: mallObject[0]?.name,
+          startTime: show?.startTime,
+          startTime: show?.startTime,
+          endTime: show?.endTime,
           intervalTime: show?.intervalTime,
           interval: show?.interval,
-        })
+        });
       }
     }
-
     res.json({
-      sucess:true,
+      sucess: true,
       allShows,
     });
   } catch (error) {
-    return res.status(500).json({sucess:false, error: "Internal Server Error" });
+    return res.status(500).json({
+      sucess: false,
+      error: "Internal Server Error",
+    });
   }
+});
+
+router.get("/confirm_the_ticket", authMiddleware, async (req, res) => {
+  const username = req.username;
+  const seatNumber = Math.floor((Math.random()*TOTAL_SEATS))+1;
+
+  res.json({
+    username,
+    seatNumber
+  })
+
 });
 
 export default router;
