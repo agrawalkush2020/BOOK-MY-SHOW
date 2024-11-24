@@ -1,7 +1,12 @@
 // reducer.js
 import { act } from "react";
-import { SET_MOVIES_LIST, RESET_MOVIES_LIST } from "./actionTypes";
-import { RESET_SHOWS_LIST, SET_SHOWS_LIST } from "../actions/actionTypes";
+
+import {
+  RESET_MOVIES_LIST,
+  RESET_SHOWS_LIST,
+  SET_MOVIES_LIST,
+  SET_SHOWS_LIST,
+} from "../actions/actionTypes";
 
 const initialState = {
   moviesList: [

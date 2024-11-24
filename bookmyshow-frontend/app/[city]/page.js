@@ -5,11 +5,28 @@ import { useRouter } from 'next/navigation';
 import SearchableDropdown from "../../components/SearchableDropdown";
 import makeTheCall from "../../utils/api";
 import { ClientPageRoot } from "next/dist/client/components/client-page";
+import { BE_URL } from "../../constants/routes";
 
 const AllMovies = ({
 
 }) => {
-    const [city, setCity] = useState("Mumbai");
+
+    // debugger
+                // const hardCode = [
+                //     {'id': 1, 'name': 'Inception', 'rating': 8.8},
+                //     {'id': 2, 'name': 'Incedfdfd fddfghjhgfds fdfdfdfdfdfdption', 'rating': 8.8},
+                //     {'id': 3, 'name': 'Inception', 'rating': 8.8},
+                //     {'id': 4, 'name': 'Incedfdfdfdfdfption', 'rating': 8.8},
+                //     {'id': 5, 'name': 'Inception', 'rating': 8.8},
+                //     {'id': 6, 'name': 'Inception', 'rating': 8.8},
+                //     {'id': 7, 'name': 'Inception', 'rating': 8.8},
+                //     {'id': 8, 'name': 'Inception', 'rating': 8.8},
+                //     {'id': 9, 'name': 'Inception', 'rating': 8.8},
+                //     {'id': 10, 'name': 'Inception', 'rating': 8.8}
+                // ]
+
+
+    const [city, setCity] = useState("");
     const [movies, setMovies] = useState([]);
     const router = useRouter(); 
     const enterTheMovie = async (movieId, movieName) => {
@@ -19,23 +36,9 @@ const AllMovies = ({
     useEffect(()=>{
         const doIt = async()=>{
             try {
-                // debugger
-                const hardCode = [
-                    {'id': 1, 'name': 'Inception', 'rating': 8.8},
-                    {'id': 2, 'name': 'Incedfdfd fddfghjhgfds fdfdfdfdfdfdption', 'rating': 8.8},
-                    {'id': 3, 'name': 'Inception', 'rating': 8.8},
-                    {'id': 4, 'name': 'Incedfdfdfdfdfption', 'rating': 8.8},
-                    {'id': 5, 'name': 'Inception', 'rating': 8.8},
-                    {'id': 6, 'name': 'Inception', 'rating': 8.8},
-                    {'id': 7, 'name': 'Inception', 'rating': 8.8},
-                    {'id': 8, 'name': 'Inception', 'rating': 8.8},
-                    {'id': 9, 'name': 'Inception', 'rating': 8.8},
-                    {'id': 10, 'name': 'Inception', 'rating': 8.8}
-                ]
-                
-                // const response = await makeTheCall('http://127.0.0.1:8000/movies/get_all_movies/', {city},'POST');
-                // console.log("response", response['movies']);
-                // setMovies([...response['movies']]);
+                const response = await makeTheCall(`${BE_URL}/movies/get_movies_in_city?city=${city}/`);
+                console.log("response", response);
+                setMovies([...response['movies']]);
                 setMovies([...hardCode]);
             } catch (error) {
                 alert(`error:${error.message}`);   
@@ -111,6 +114,8 @@ const AllMovies = ({
         'Guwahati',
         'Bikaner',
       ];
+
+    if (!city) return null;
 
     return (
         <div>

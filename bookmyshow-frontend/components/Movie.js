@@ -3,7 +3,7 @@ import react from "react";
 import makeTheCall from "../utils/api";
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { useRouter } from 'next/navigation';
-import { setLocations } from "../redux/store/movieSlice";
+// import { setLocations } 
 
 const Movie = ({
     photo = "movie_photo.jpeg",  // Provide a default image path or URL
@@ -28,9 +28,9 @@ const Movie = ({
         debugger
         const temp = 67;
         // Save data in Redux store
-        if (response && response['locations']) {
-            dispatch(setLocations(response['locations']));
-        }
+        // if (response && response['locations']) {
+        //     dispatch(setLocations(response['locations']));
+        // }
         router.push(`/movies/${name}`);
         // router.push({
         //     pathname: "/movies/${name}",

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Location from "../../../components/Location";
+import Location from "../../../../components/Location";
 import { useSelector } from 'react-redux';
 
 const AllLocations = () => {
