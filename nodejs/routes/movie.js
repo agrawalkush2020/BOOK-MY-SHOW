@@ -140,4 +140,7 @@ router.get("/confirm_the_ticket", authMiddleware, async (req, res) => {
   }
 });
 
+// https://easy.razorpay.com/onboarding/overview/kyc
+// ispr 3-4 wokring days kha hai confirm krne mein ,
+
 export default router;
