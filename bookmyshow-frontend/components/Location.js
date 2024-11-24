@@ -3,8 +3,7 @@ import React, { useState } from "react";
 
 const Location = ({
     service_provider="",
-    mall="",
-    city="",
+    mall="", 
     timings=[]
 })=>{
 
@@ -15,13 +14,12 @@ const Location = ({
                 <div className="w-[350px]">
                     <div className="flex justify-between">
                         <div><img src={"/assets/colorHeartIcon.png"} alt="Group Icon" className="w-[20px] inline"
-                            />{service_provider}, {mall}, {city}</div>
+                            />{service_provider}, {mall}</div>
                         <div className="flex">
                             <img 
                                 src={"/assets/infoIcon.png"}
                                 alt="Group Icon" 
                                 className="w-[20px]"
-                            
                             /> info
                         </div>
                     </div>
