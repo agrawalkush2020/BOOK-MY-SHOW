@@ -4,10 +4,10 @@ import userRouter from "./routes/user.js";
 import adminRouter from "./routes/admin.js"
 import movieRouter from "./routes/movie.js"
 import cors from "cors";
-
-const app = express();
+var app = express()
+app.use(cors());
 app.use(express.json());
-app.use(cors({ origin: true }));
+
 
 mongoose
   .connect(
@@ -23,8 +23,5 @@ mongoose
 app.use("/users", userRouter);
 app.use("/admin", adminRouter)
 app.use("/movies", movieRouter);
-
-console.log("hello");
-
 
 app.listen(3000);

@@ -15,7 +15,7 @@ import { User } from "../db/user.js";
 import { getCurrentBookingTime } from "../utils/dateAndTime.js";
 const router = express.Router();
 
-router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
+router.get("/get_movies_in_city", async (req, res) => {
   const city = req?.params?.city || "New Delhi";
   const cityObject = await City.findOne({ name: city });
   if (cityObject) {

@@ -1,9 +1,12 @@
 // components/SearchableDropdown.js
 import { useState } from 'react';
 
-const SearchableDropdown = ({ options }) => {
+const SearchableDropdown = ({ 
+  options,
+  handleChange = ()=>{}
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("New Delhi");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleSearch = (e) => {
@@ -13,6 +16,7 @@ const SearchableDropdown = ({ options }) => {
   const handleOptionClick = (option) => {
     setSelectedOption(option);
     setIsDropdownOpen(false);
+    handleChange(option);
   };
 
   const filteredOptions = options.filter((option) =>

@@ -19,11 +19,26 @@ const Movie = ({
     const dispatch = useDispatch(); // Use useDispatch to get the dispatch function
  
 
-    const handleOnClick = async (movie_id)=>{
-        console.log("movie_id", movie_id);
-        const response = await makeTheCall('http://127.0.0.1:8000/movies/get_all_locations_and_timings/', 
-                                            {'movie_id': movie_id, 'city': city},
-                                            'POST');
+    const handleOnClick = async (movieName)=>{
+        console.log("movie_id", movieName);
+        // const response = await makeTheCall('http://127.0.0.1:8000/movies/get_all_shows/', 
+        //                                     {'movie': movieName, 'city': city},
+        //                                     'POST');
+
+        const response = {
+            "sucess": true,
+            "allShows": [
+                {
+                    "id": "673ccd78ae979c346c674391",
+                    "serviceProvider": "PVR Cinemas",
+                    "mall": "Select Citywalk",
+                    "startTime": "2024-11-19T09:30:00.000Z",
+                    "endTime": "2024-11-19T11:58:00.000Z",
+                    "intervalTime": "2024-11-19T10:30:00.000Z",
+                    "interval": 15
+                }
+            ]
+        }
         
         debugger
         const temp = 67;
@@ -40,7 +55,7 @@ const Movie = ({
     }
 
     return (
-        <div onClick={()=>{handleOnClick(id)}} className="w-[230px] cursor-pointer ">
+        <div onClick={()=>{handleOnClick(name)}} className="w-[230px] cursor-pointer ">
             <div>
                 <img 
                     src={`/assets/${photo}`}
