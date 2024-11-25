@@ -16,6 +16,7 @@ const Location = ({
           method: "POST",
           headers: {
             "Content-Type": "application/json", // Specify JSON data format
+            "Authorization": localStorage.getItem("token"),
           },
           body: JSON.stringify({
             time,
