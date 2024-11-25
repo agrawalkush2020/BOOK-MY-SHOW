@@ -9,20 +9,22 @@ const SignUp = ({
 
     const router = useRouter();
 
-    const [fullName, setFullName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [username,setUsername]= useState("");
+    const [phoneNumber, setPhoneNumber] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [profilePhoto, setProfilePhoto] = useState(null);
 
     // Handling functions for each input state
-    const handleFullNameChange = (value) => {
-        setFullName(value);
+
+    const handleUsernameChange= (value)=>{
+        setUsername(value);
     }
 
     const handlePhoneNumberChange = (value) => {
-        setPhoneNumber(value);
+        let parsedValue = Number(value);
+        if(parsedValue==0)parsedValue=null;
+        setPhoneNumber(parsedValue);
     }
 
     const handleEmailChange = (value) => {
@@ -35,10 +37,6 @@ const SignUp = ({
 
     const handleConfirmPasswordChange = (value) => {
         setConfirmPassword(value);
-    }
-
-    const handleFileChange = (event) => {
-        setProfilePhoto(event.target.files[0]);
     }
 
     function validateEmail(email) {
@@ -71,24 +69,21 @@ const SignUp = ({
             else if (!validateEmail(email)) {
                 throw new Error('please enter a "valid email"!!')
             }
-            else if (false) {  //format check krenge file ka jpg and jpeg hee hona chahiye 
-                throw new Error('please upload the file with jpg or jpeg format only');
-            }
 
         } catch (error) {
             alert(error.message);
             return; // Stop further processing if there's an error
         }
 
-        let url = 'http://127.0.0.1:8000/' + "users/signup/";
+        let url = 'http://127.0.0.1:3000/' + "users/signup/";
         let body = {
-            fullName: fullName,
-            phoneNumber: phoneNumber,
+            username,
+            number: phoneNumber,
             email: email,
             password: password,
-            // Profile photo will not be included in a simple JSON body; it needs to be handled differently (e.g., using FormData for file uploads)
         };
         let response = await makeTheCall(url, body);
+        
         if (response.ok) {
             const data = await response.json();
             if (data?.success) {
@@ -104,22 +99,17 @@ const SignUp = ({
         }
     }
 
+    console.log("number",phoneNumber, typeof(phoneNumber));
+
     return (
         <div>
             <form onSubmit={handleTheSubmit}>
-                <Input
-                    name={"fullName"}
-                    type={"text"}
-                    label={"Full Name:"}
-                    value={fullName}
-                    placeHolder={"Enter your full name"}
-                    handleChange={handleFullNameChange}
-                />
+
                 <Input
                     name={"phoneNumber"}
-                    type={"number"}
+                    type={"tel"}
                     label={"Phone Number:"}
-                    value={phoneNumber}
+                    value={phoneNumber ?? ""} // Handle undefined values gracefully
                     placeHolder={"Enter your phone number"}
                     handleChange={handlePhoneNumberChange}
                 />
@@ -130,6 +120,14 @@ const SignUp = ({
                     value={email}
                     placeHolder={"Enter your email address"}
                     handleChange={handleEmailChange}
+                />
+                <Input
+                    name={"username"}
+                    type={"text"}
+                    label={"Username:"}
+                    value={username}
+                    placeHolder={"Enter your Username"}
+                    handleChange={handleUsernameChange}
                 />
                 <Input
                     name={"password"}
@@ -147,14 +145,8 @@ const SignUp = ({
                     placeHolder={"Confirm your password"}
                     handleChange={handleConfirmPasswordChange}
                 />
-                <div>
-                    <label>Profile Photo (Optional):</label>
-                    <Input
-                        type="file"
-                        onChange={handleFileChange}
-                    />
-                </div>
-                <button className="bg-orange-600" type="submit">Sign Up</button>
+
+                <button className="border-red-800 border p-[5px]" type="submit">Sign Up</button>
             </form>
         </div>
     );

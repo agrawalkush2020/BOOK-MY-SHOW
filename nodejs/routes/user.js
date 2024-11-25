@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import { z } from "zod";
 import { User } from "../db/user.js";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config.js";
 
 export const signupSchema = z.object({
@@ -18,7 +18,6 @@ export const signInSchema = z.object({
 });
 
 router.post("/signup", async (req, res) => {
-  console.log("dfg");
   try {
     console.log("req.body", req.body);
     signupSchema.parse(req.body);
@@ -28,17 +27,19 @@ router.post("/signup", async (req, res) => {
     });
     if (userAlreadyExist) {
       res.status(401).json({
-        success:false,
+        success: false,
         message: "user already exist!",
       });
     }
     await userObject.save();
-    res.send({
+    return res.send({
+      success: true,
       message: "user created successfully !!",
     });
   } catch (error) {
+    console.log(error);
     res.status(401).json({
-      success:false,
+      success: false,
       message: `Fill proper credentials ${error.message} !`,
     });
   }
@@ -55,17 +56,17 @@ router.post("/signin", async (req, res) => {
     });
     if (!userExist) {
       res.status(401).json({
-        success:false,
+        success: false,
         message: "User does not Exist!, Incorrect username or password",
       });
     }
     var token = jwt.sign({ username }, JWT_SECRET);
     res.json({
-      token
+      token,
     });
   } catch (error) {
     res.status(401).json({
-      success:false,
+      success: false,
       message: `Fill proper credentials ${error.message} !`,
     });
   }
