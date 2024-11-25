@@ -10,44 +10,31 @@ const Login = ({}) => {
   const [password, setPassword] = useState("");
 
   const handleUsernameChange = (value) => {
-    setUsernameneNumber(value);
+    setUsername(value);
   };
 
   const handlePasswordChange = (value) => {
     setPassword(value);
   };
 
-  const makeTheCall = async (url, body) => {
-    let response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include", // This ensures cookies are sent and received
-    });
-
-    return response;
-  };
-
   const handleTheSubmit = async (event) => {
-    if (!phoneNumber || !password) {
+    event.preventDefault();
+    if (!username || !password) {
       alert('Don"t leave the input empty');
       return;
     }
 
-    event.preventDefault();
-
-    // debugger
-
-    let url = "http://127.0.0.1:8000/" + "users/login/";
-    let body = {
-      phoneNumber,
-      password: password,
-    };
-
     try {
-      let response = await makeTheCall(url, body);
+      let response = await fetch("http://127.0.0.1:3000/users/login/", {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -56,7 +43,7 @@ const Login = ({}) => {
           router.push("/movies");
         }
       } else {
-        alert(data.message);
+        alert(data?.message);
       }
     } catch (error) {
       console.error("Error occurred:", error.message);
@@ -82,7 +69,7 @@ const Login = ({}) => {
         placeHolder={"Enter your password"}
         handleChange={handlePasswordChange}
       />
-      <button className="bg-orange-600" type="submit">
+      <button className="bg-orange-600 p-[5px]" type="submit">
         Log In
       </button>
     </form>

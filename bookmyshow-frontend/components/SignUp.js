@@ -87,7 +87,6 @@ const SignUp = ({
         if (response.ok) {
             const data = await response.json();
             if (data?.success) {
-                // user created successfully, Redirect to login after successful signup
                 router.push('/users/login');
             }
             else {

@@ -45,7 +45,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/signin", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     console.log("req.body", req.body);
     signInSchema.parse(req.body);
@@ -62,6 +62,7 @@ router.post("/signin", async (req, res) => {
     }
     var token = jwt.sign({ username }, JWT_SECRET);
     res.json({
+      success: true,
       token,
     });
   } catch (error) {
