@@ -20,15 +20,20 @@ const Movie = ({
 
   const handleOnClick = async (movieName) => {
     const response = await fetch(
-      "http://127.0.0.1:8000/movies/get_all_shows/",
+      "http://127.0.0.1:3000/movies/get_all_shows/",
       {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify JSON data format
+        },
         body: JSON.stringify({
           movie: movieName,
           city: city,
         }),
-        method: "POST",
       }
     );
+
+    debugger
 
     const data = await response.json();
 

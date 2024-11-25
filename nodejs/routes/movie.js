@@ -59,7 +59,7 @@ router.get("/get_movies_in_city", async (req, res) => {
   }
 });
 
-router.post("/get_all_shows", authMiddleware, async (req, res) => {
+router.post("/get_all_shows", async (req, res) => {
   const city = req?.body?.city;
   const movie = req?.body?.movie;
 

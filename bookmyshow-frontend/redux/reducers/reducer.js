@@ -23,17 +23,8 @@ const initialState = {
       timings: ["10:00 AM", "09:30 PM"],
     },
   ],
-  showsList: [
-    {
-      id: "673ccd78ae979c346c674391",
-      serviceProvider: "PVR Cinemas",
-      mall: "Select Citywalk",
-      startTime: "2024-11-19T09:30:00.000Z",
-      endTime: "2024-11-19T11:58:00.000Z",
-      intervalTime: "2024-11-19T10:30:00.000Z",
-      interval: 15,
-    },
-  ],
+  showsList: [],
+  
 };
 
 const Reducer = (state = initialState, action) => {
@@ -46,7 +37,6 @@ const Reducer = (state = initialState, action) => {
       return { ...state, showsList: action.payload };
     case RESET_SHOWS_LIST:
       return { ...state, showsList: initialState.showsList };
-
     default:
       return state;
   }

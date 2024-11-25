@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 const Location = ({
-    service_provider="",
+    serviceProvider="",
     mall="", 
     timings=[]
 })=>{
@@ -14,7 +14,7 @@ const Location = ({
                 <div className="w-[350px]">
                     <div className="flex justify-between">
                         <div><img src={"/assets/colorHeartIcon.png"} alt="Group Icon" className="w-[20px] inline"
-                            />{service_provider}, {mall}</div>
+                            />{serviceProvider}, {mall}</div>
                         <div className="flex">
                             <img 
                                 src={"/assets/infoIcon.png"}
@@ -29,7 +29,7 @@ const Location = ({
                     </div>
                 </div>
                 <div className="ml-[10px]">
-                    {timings.map((time)=>{
+                    {Array.isArray(timings) && timings.map((time)=>{
                         return (
                             <button
                             className="border border-gray-600 px-7 py-3 text-green-400 rounded-md text-xs mr-[10px]"
