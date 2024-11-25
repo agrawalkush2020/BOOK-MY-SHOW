@@ -105,9 +105,9 @@ router.post("/get_all_shows", async (req, res) => {
   }
 });
 
-router.get("/confirm_the_ticket", authMiddleware, async (req, res) => {
+router.post("/confirm_the_ticket", authMiddleware, async (req, res) => {
   const username = req.username;
-  const showId = req?.query?.showId;
+  const showId = req?.body?.showId;
   const seatNumber = Math.floor(Math.random() * TOTAL_SEATS) + 1;
 
   try {

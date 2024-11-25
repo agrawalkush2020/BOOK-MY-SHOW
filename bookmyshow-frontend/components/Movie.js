@@ -33,7 +33,7 @@ const Movie = ({
       }
     );
 
-    debugger
+
 
     const data = await response.json();
 
@@ -54,7 +54,6 @@ const Movie = ({
     //     ]
     // }
 
-    debugger;
     dispatch(setShowsList(data?.allShows));
     const url = window.location.pathname; // Gets "/New Delhi"
     const param = decodeURIComponent(url.split("/")[1]); // Extracts "New Delhi"

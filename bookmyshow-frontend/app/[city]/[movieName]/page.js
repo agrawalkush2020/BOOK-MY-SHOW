@@ -29,6 +29,7 @@ const AllLocations = () => {
           ? "No shows Available"
           : showsList.map((location, index) => (
               <Location
+                id={location.id}
                 serviceProvider={location["serviceProvider"]}
                 mall={location?.mall}
                 timings={[location?.startTime]}
