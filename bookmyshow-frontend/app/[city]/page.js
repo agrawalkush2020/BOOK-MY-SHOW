@@ -6,7 +6,6 @@ import { BE_URL } from "../../constants/routes";
 import { cityOptions } from "../../constants/info";
 import { useRouter } from "next/navigation";
 
-
 const AllMovies = ({}) => {
   const [city, setCity] = useState("");
   const [movies, setMovies] = useState([]);
