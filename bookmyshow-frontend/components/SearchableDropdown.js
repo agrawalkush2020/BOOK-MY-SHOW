@@ -3,10 +3,11 @@ import { useState } from 'react';
 
 const SearchableDropdown = ({ 
   options,
-  handleChange = ()=>{}
+  handleChange = ()=>{},
+  selectedValue=""
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedOption, setSelectedOption] = useState("New Delhi");
+  const [selectedOption, setSelectedOption] = useState(selectedValue);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleSearch = (e) => {

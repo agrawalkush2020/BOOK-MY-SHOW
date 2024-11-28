@@ -40,7 +40,7 @@ const Login = ({}) => {
         const data = await response.json();
         if (data?.success && data?.token) {
           localStorage.setItem("token", `Bearer ${data.token}`);
-          router.push("/movies");
+          router.push("/New Delhi");
         }
       } else {
         alert(data?.message);

@@ -34,26 +34,9 @@ const Movie = ({
       }
     );
 
-
-
     const data = await response.json();
 
     if (!response.ok) throw new Error(data.message);
-
-    // const data = {
-    //     "sucess": true,
-    //     "allShows": [
-    //         {
-    //             "id": "673ccd78ae979c346c674391",
-    //             "serviceProvider": "PVR Cinemas",
-    //             "mall": "Select Citywalk",
-    //             "startTime": "2024-11-19T09:30:00.000Z",
-    //             "endTime": "2024-11-19T11:58:00.000Z",
-    //             "intervalTime": "2024-11-19T10:30:00.000Z",
-    //             "interval": 15
-    //         }
-    //     ]
-    // }
 
     dispatch(setShowsList(data?.allShows));
     const url = window.location.pathname; // Gets "/New Delhi"
