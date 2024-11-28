@@ -4,10 +4,13 @@ import Movie from "../../components/Movie";
 import SearchableDropdown from "../../components/SearchableDropdown";
 import { BE_URL } from "../../constants/routes";
 import { cityOptions } from "../../constants/info";
+import { useRouter } from "next/navigation";
+
 
 const AllMovies = ({}) => {
   const [city, setCity] = useState("");
   const [movies, setMovies] = useState([]);
+  const router = useRouter();
 
   const handleCityChange = async (newCity) => {
     setCity(newCity);
@@ -40,7 +43,7 @@ const AllMovies = ({}) => {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("You are not logged in. Redirecting to login page.");
-      window.location.href = "/login"; // Redirect to login page
+      router.push("/users/login"); 
       return;
     }
 
