@@ -1,11 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect, useReducer } from "react";
 import Location from "../../../components/Location";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const AllLocations = () => {
   // Access showsList from the Redux store
   const showsList = useSelector((state) => state.showsList);
+  const router = useRouter();
+
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You are not logged in. Redirecting to login page.");
+      router.push("/users/login"); 
+      return;
+    }
+  },[]);
 
   return (
     <div>
