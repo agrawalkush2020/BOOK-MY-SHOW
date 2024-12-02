@@ -16,32 +16,12 @@ const Movie = ({
 }) => {
   console.log("id", id);
   const router = useRouter();
-  const dispatch = useDispatch(); // Use useDispatch to get the dispatch function
+  const dispatch = useDispatch();
 
   const handleOnClick = async (movieName) => {
-    const response = await fetch(
-      "http://127.0.0.1:3000/movies/get_all_shows/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Specify JSON data format
-          "Authorization": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          movie: movieName,
-          city: city,
-        }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message);
-
-    dispatch(setShowsList(data?.allShows));
-    const url = window.location.pathname; // Gets "/New Delhi"
-    const param = decodeURIComponent(url.split("/")[1]); // Extracts "New Delhi"
-    router.push(`/${param}/${movieName}`);
+    const url = window.location.pathname;
+    const newUrl = `${url}/${movieName}`;
+    router.push(newUrl);
   };
 
   return (

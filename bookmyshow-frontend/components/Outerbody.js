@@ -1,15 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import SignUp from "./SignUp";
-
-import Login from "./Login";
-import FirstPage from "./FirstPage";
-import Input from "./sharedComponents/Input";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const Outerbody = ({}) => {
   const router = useRouter();
-  // const [first,setFirst] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -23,8 +17,6 @@ const Outerbody = ({}) => {
       return;
     }
   }, []);
-
-  // if(!first) return first;
 
   return (
     <h1>loading</h1>
