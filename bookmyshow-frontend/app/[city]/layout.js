@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import "../../styles/globals.css";
 
 export default function RootLayout({ children }) {
   const router = useRouter();
@@ -14,13 +15,25 @@ export default function RootLayout({ children }) {
   return (
     <>
       <header>
-        <nav>
-          {/* Other navigation links */}
-          <button onClick={handleLogout} className="logout-btn">
+        <nav
+          className="flex justify-between items-center p-4 text-white shadow-lg"
+          style={{ backgroundColor: "#333333" }}
+        >
+          {/* Brand Name */}
+          <div className="text-2xl font-bold tracking-wide">Movie Dekho</div>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="bg-[#98788] hover:bg-[#654321] text-white font-medium px-4 
+            py-2 rounded-lg shadow-md transition-transform duration-200 transform 
+            hover:scale-105"
+          >
             Logout
           </button>
         </nav>
       </header>
+
       <main>{children}</main>
     </>
   );
