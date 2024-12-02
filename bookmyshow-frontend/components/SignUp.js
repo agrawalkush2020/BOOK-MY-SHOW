@@ -23,7 +23,9 @@ const SignUp = ({
 
     const handlePhoneNumberChange = (value) => {
         let parsedValue = Number(value);
+        debugger
         if(parsedValue==0)parsedValue=null;
+        else if(Number.isNaN(parsedValue)) parsedValue=null;
         setPhoneNumber(parsedValue);
     }
 

@@ -3,8 +3,6 @@ import react from "react";
 import makeTheCall from "../utils/api";
 import { useDispatch } from "react-redux"; // Import useDispatch
 import { useRouter } from "next/navigation";
-import { setShowsList } from "../redux/actions/actions";
-// import { setLocations }
 
 const Movie = ({
   photo = "movie_photo.jpeg", // Provide a default image path or URL

@@ -12,6 +12,10 @@ export default function RootLayout({ children }) {
     router.push("/users/login");
   };
 
+  const routerToHome = () => {
+    router.push("/New Delhi");
+  };
+
   return (
     <>
       <header>
@@ -20,6 +24,12 @@ export default function RootLayout({ children }) {
           style={{ backgroundColor: "#333333" }}
         >
           <div className="text-2xl font-bold tracking-wide">Movie Dekho</div>
+          <div
+            className="text-2xl font-bold tracking-wide cursor-pointer"
+            onClick={routerToHome}
+          >
+            Movies
+          </div>
           <button
             onClick={handleLogout}
             className="bg-[#98788] hover:bg-[#0c0600] text-white font-medium px-4 
