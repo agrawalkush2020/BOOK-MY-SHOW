@@ -92,7 +92,8 @@ const Location = ({
                     selectTheTiming(time, id);
                   }}
                 >
-                  {time}
+                {new Date(time).toLocaleString("en-US", { timeZone: "Asia/Kolkata" })}
+
                 </button>
               );
             })}

@@ -44,7 +44,7 @@ const Movie = ({
             alt="Group Icon"
             className="h-[20px] w-[20px]"
           />
-          <span>{rating}/10</span>
+          <span className="bg-[#98788]">{rating}/10</span>
         </div>
       </div>
       <div>{name}</div>

@@ -8,11 +8,9 @@ const Outerbody = ({}) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      alert("Already logged in !!");
       router.push("New Delhi");
       return;
     } else {
-      alert("Not logged in !!");
       router.push("/users/login");
       return;
     }
