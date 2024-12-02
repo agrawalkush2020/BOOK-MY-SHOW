@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SignUp from "./SignUp";
 
 import Login from "./Login";
@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 
 const Outerbody = ({}) => {
   const router = useRouter();
+  // const [first,setFirst] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -23,8 +24,10 @@ const Outerbody = ({}) => {
     }
   }, []);
 
+  // if(!first) return first;
+
   return (
-    null
+    <h1>loading</h1>
   );
 };
 
