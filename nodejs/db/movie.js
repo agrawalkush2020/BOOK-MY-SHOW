@@ -79,6 +79,7 @@ const bookingScheama = new Schema({
   show:{ type: Schema.Types.ObjectId, ref: "Show" },
   username:String,
   seatNumber:Number,
+  bookingTime:Date,
 })
 
 export const Booking = mongoose.model("Booking", bookingScheama);

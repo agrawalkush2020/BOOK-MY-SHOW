@@ -1,4 +1,4 @@
-// import { sendEmail } from "../mailling";
+ import { sendEmail } from "../mailling.js";
 
 
 export const getCurrentBookingTime = () => {

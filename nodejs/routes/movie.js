@@ -12,11 +12,14 @@ import {
 import { TOTAL_SEATS } from "../config.js";
 import { sendEmail } from "../mailling.js";
 import { User } from "../db/user.js";
-import { getCurrentBookingTime, sendEmailWithRetry } from "../utils/dateAndTime.js";
+import {
+  getCurrentBookingTime,
+  sendEmailWithRetry,
+} from "../utils/dateAndTime.js";
 const router = express.Router();
 
 router.get("/get_movies_in_city", authMiddleware, async (req, res) => {
-  const city = req?.query?.city || "New Delhi"; 
+  const city = req?.query?.city || "New Delhi";
   const cityObject = await City.findOne({ name: city });
   if (cityObject) {
     try {
@@ -122,6 +125,8 @@ router.post("/confirm_the_ticket", authMiddleware, async (req, res) => {
       bookingTime: getCurrentBookingTime(),
     });
 
+    console.log("booking", booking);
+
     // If the booking was successful, send the email
     const emailSent = await sendEmailWithRetry(
       userObject[0]?.email,
@@ -129,10 +134,12 @@ router.post("/confirm_the_ticket", authMiddleware, async (req, res) => {
       `congratulations, your seat number is ${seatNumber}`
     );
 
+    console.log("emailSent", emailSent);
+
     // If email sending failed, log the error
     if (!emailSent) {
       console.log("Failed to send email after multiple attempts");
-      throw new Error("failed to send the email but seat is confirmed !!")
+      throw new Error("failed to send the email but seat is confirmed !!");
       // Optionally, you can notify the admin or alert the user about the email failure
     }
 
@@ -148,7 +155,6 @@ router.post("/confirm_the_ticket", authMiddleware, async (req, res) => {
     });
   }
 });
-
 
 // https://easy.razorpay.com/onboarding/overview/kyc
 // ispr 3-4 wokring days kha hai confirm krne mein ,
