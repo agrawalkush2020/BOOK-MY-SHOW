@@ -140,7 +140,6 @@ router.post("/confirm_the_ticket", authMiddleware, async (req, res) => {
     if (!emailSent) {
       console.log("Failed to send email after multiple attempts");
       throw new Error("failed to send the email but seat is confirmed !!");
-      // Optionally, you can notify the admin or alert the user about the email failure
     }
 
     res.json({
