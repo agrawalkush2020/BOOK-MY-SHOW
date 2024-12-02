@@ -5,23 +5,6 @@ import Login from "../../../components/Login";
 import Logout from "../../../components/Logout";
 
 export default function LoginPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-
-  useEffect(() => {
-    function checkCookie() {
-      const cookies = document.cookie.split(";");
-      const sessionCookie = cookies.find((cookie) =>
-        cookie.trim().startsWith("sessionid=")
-      );
-      setIsAuthenticated(!!sessionCookie);
-    }
-
-    checkCookie();
-  }, []);
-
-  if (isAuthenticated === null) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <div>
