@@ -2,8 +2,7 @@ import express from "express";
 const router = express.Router();
 import { z } from "zod";
 import { User } from "../db/user.js";
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config.js";
+import { generateToken } from "../utils/auth.js";
 
 export const signupSchema = z.object({
   email: z.string().email(),
@@ -60,7 +59,9 @@ router.post("/login", async (req, res) => {
         message: "User does not Exist!, Incorrect username or password",
       });
     }
-    var token = jwt.sign({ username }, JWT_SECRET);
+
+    var token = generateToken(username, "public");
+    
     res.json({
       success: true,
       token,

@@ -3,6 +3,8 @@ const router = express.Router();
 import { Admin } from "../db/admin.js";
 import { signInSchema, signupSchema } from "./user.js";
 import { JWT_SECRET } from "../config.js";
+import { Booking } from "../db/movie.js";
+import { adminAuthMiddleware } from "../middleware/middleware.js";
 
 router.post("/signup", async (req, res) => {
   try {
@@ -40,7 +42,7 @@ router.get("/signin", async (req, res) => {
         message: "User does not Exist!, Incorrect username or password",
       });
     }
-    var token = jwt.sign({ username }, JWT_SECRET);
+    var token = generateToken(username, "admin");
     res.json({
       token,
     });
@@ -49,6 +51,23 @@ router.get("/signin", async (req, res) => {
       message: `Fill proper credentials ${error.message} !`,
     });
   }
+});
+
+router.get("/bookings", adminAuthMiddleware, (req, res) => {
+
+  try {
+    const bookings = Booking.find();
+    return res.json({
+      success:true,
+      bookings
+    });
+  } catch (error) {
+      return res.status(501).json({
+        success:false,
+        message:"internal server error"
+      })
+  }
+
 });
 
 export default router;
