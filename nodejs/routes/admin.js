@@ -5,6 +5,7 @@ import { signInSchema, signupSchema } from "./user.js";
 import { JWT_SECRET } from "../config.js";
 import { Booking } from "../db/movie.js";
 import { adminAuthMiddleware } from "../middleware/middleware.js";
+import { generateToken } from "../utils/auth.js";
 
 router.post("/signup", async (req, res) => {
   try {
@@ -29,7 +30,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.get("/signin", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     signInSchema.parse(req.body);
     const { username, password } = req.body;
@@ -53,10 +54,10 @@ router.get("/signin", async (req, res) => {
   }
 });
 
-router.get("/bookings", adminAuthMiddleware, (req, res) => {
+router.get("/bookings", adminAuthMiddleware, async (req, res) => {
 
   try {
-    const bookings = Booking.find();
+    const bookings = await Booking.find();
     return res.json({
       success:true,
       bookings
