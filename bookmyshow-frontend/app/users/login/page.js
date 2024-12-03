@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Login from "../../../components/Login";
-import Logout from "../../../components/Logout";
+
+
 
 export default function LoginPage() {
 
@@ -10,7 +10,9 @@ export default function LoginPage() {
     <div>
       <h1>Login Page</h1>
       <div>
-        <Login />
+        <Login 
+        user={"public"}
+        />
         <p>
           Not Registered?&nbsp;&nbsp;&nbsp;
           <Link href="/users/signup">Sign-Up here</Link>

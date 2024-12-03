@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Input from "./sharedComponents/Input";
 import { useRouter } from "next/navigation";
 
-const Login = ({}) => {
+const Login = ({ user = "" }) => {
   const router = useRouter();
 
   const [username, setUsername] = useState("");
@@ -25,7 +25,12 @@ const Login = ({}) => {
     }
 
     try {
-      let response = await fetch("http://127.0.0.1:3000/users/login/", {
+      const url =
+        user == "public"
+          ? "http://127.0.0.1:3000/users/login/"
+          : "http://127.0.0.1:3000/admin/login/";
+
+      let response = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
           username,
@@ -40,7 +45,11 @@ const Login = ({}) => {
         const data = await response.json();
         if (data?.success && data?.token) {
           localStorage.setItem("token", `Bearer ${data.token}`);
-          router.push("/New Delhi");
+          if(user=="public"){
+            router.push("/New Delhi");
+          }else{
+            router.push("/registerShow");
+          }
         }
       } else {
         alert(data?.message);
