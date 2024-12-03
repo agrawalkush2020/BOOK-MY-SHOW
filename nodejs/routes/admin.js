@@ -45,27 +45,29 @@ router.post("/login", async (req, res) => {
     }
     var token = generateToken(username, "admin");
     res.json({
+      success: true,
       token,
     });
   } catch (error) {
     res.status(401).json({
+      success: false,
       message: `Fill proper credentials ${error.message} !`,
     });
   }
 });
 
-router.get("/bookings", async (req, res) => {
+router.get("/bookings", adminAuthMiddleware, async (req, res) => {
   try {
     const bookings = await Booking.find();
     return res.json({
-      success:true,
-      bookings
+      success: true,
+      bookings,
     });
   } catch (error) {
-      return res.status(501).json({
-        success:false,
-        message:"internal server error"
-      })
+    return res.status(501).json({
+      success: false,
+      message: "internal server error",
+    });
   }
 });
 

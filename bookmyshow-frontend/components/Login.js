@@ -48,7 +48,7 @@ const Login = ({ user = "" }) => {
           if(user=="public"){
             router.push("/New Delhi");
           }else{
-            router.push("/registerShow");
+            router.push("/admin");
           }
         }
       } else {
