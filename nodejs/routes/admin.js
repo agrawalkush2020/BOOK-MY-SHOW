@@ -54,8 +54,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/bookings", adminAuthMiddleware, async (req, res) => {
-
+router.get("/bookings", async (req, res) => {
   try {
     const bookings = await Booking.find();
     return res.json({
@@ -68,7 +67,6 @@ router.get("/bookings", adminAuthMiddleware, async (req, res) => {
         message:"internal server error"
       })
   }
-
 });
 
 export default router;

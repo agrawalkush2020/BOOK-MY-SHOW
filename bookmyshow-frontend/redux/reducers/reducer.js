@@ -2,11 +2,14 @@
 import { act } from "react";
 
 import {
+  RESET_BOOKED_SHOWS,
   RESET_MOVIES_LIST,
   RESET_SHOWS_LIST,
+  SET_BOOKED_SHOWS,
   SET_MOVIES_LIST,
   SET_SHOWS_LIST,
 } from "../actions/actionTypes";
+import { setBookedShows } from "../actions/actions";
 
 const initialState = {
   moviesList: [
@@ -24,7 +27,7 @@ const initialState = {
     },
   ],
   showsList: [],
-  
+  bookedShows: [],
 };
 
 const Reducer = (state = initialState, action) => {
@@ -37,6 +40,14 @@ const Reducer = (state = initialState, action) => {
       return { ...state, showsList: action.payload };
     case RESET_SHOWS_LIST:
       return { ...state, showsList: initialState.showsList };
+
+
+
+    // for the admin
+    case SET_BOOKED_SHOWS:
+      return { ...state, bookedShows: action.payload };
+    case RESET_BOOKED_SHOWS:
+      return { ...state, bookedShows: initialState.bookedShows };
     default:
       return state;
   }
