@@ -14,15 +14,34 @@ const Outerbody = ({}) => {
     } else {
       router.push("/admin/login");
     }
-    return ;
+    return;
   }
+
+  const handleOnClick = (user) => {
+    router.push(`/${user}/login`);
+    return ;
+  };
 
   return (
     <div>
       Login as
       <div className="flex">
-        <button className="border border-blue-500 m-[10px]">User</button>
-        <button className="border border-blue-500 m-[10px]">Admin</button>
+        <button
+          className="border border-blue-500 m-[10px]"
+          onClick={() => {
+            handleOnClick("users");
+          }}
+        >
+          User
+        </button>
+        <button
+          className="border border-blue-500 m-[10px]"
+          onClick={() => {
+            handleOnClick("admin");
+          }}
+        >
+          Admin
+        </button>
       </div>
     </div>
   );
