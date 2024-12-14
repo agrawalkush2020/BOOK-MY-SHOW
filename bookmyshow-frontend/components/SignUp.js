@@ -106,7 +106,7 @@ const SignUp = () => {
             type={"tel"}
             label={"Phone Number:"}
             value={phoneNumber}
-            placeholder={"Enter your phone number"}
+            placeHolder={"Enter your phone number"}
             handleChange={handlePhoneNumberChange}
           />
           <Input
@@ -114,7 +114,7 @@ const SignUp = () => {
             type={"email"}
             label={"Email Address:"}
             value={email}
-            placeholder={"Enter your email address"}
+            placeHolder={"Enter your email address"}
             handleChange={handleEmailChange}
           />
           <Input
@@ -122,7 +122,7 @@ const SignUp = () => {
             type={"text"}
             label={"Username:"}
             value={username}
-            placeholder={"Enter your Username"}
+            placeHolder={"Enter your Username"}
             handleChange={handleUsernameChange}
           />
           <Input
@@ -130,7 +130,7 @@ const SignUp = () => {
             type={"password"}
             label={"Password:"}
             value={password}
-            placeholder={"Enter your password"}
+            placeHolder={"Enter your password"}
             handleChange={handlePasswordChange}
           />
           <Input
@@ -138,7 +138,7 @@ const SignUp = () => {
             type={"password"}
             label={"Confirm Password:"}
             value={confirmPassword}
-            placeholder={"Confirm your password"}
+            placeHolder={"Confirm your password"}
             handleChange={handleConfirmPasswordChange}
           />
 

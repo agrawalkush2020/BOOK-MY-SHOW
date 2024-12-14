@@ -39,12 +39,12 @@ router.post("/login", async (req, res) => {
       password,
     });
     if (!userExist) {
-      res.status(401).json({
+      return res.status(401).json({
         message: "User does not Exist!, Incorrect username or password",
       });
     }
     var token = generateToken(username, "admin");
-    res.json({
+    return res.json({
       success: true,
       token,
     });
