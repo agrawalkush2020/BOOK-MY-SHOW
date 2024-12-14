@@ -33,6 +33,18 @@ export default function RootLayout({ children }) {
             >
               Movies
             </div>
+            <div
+              className="text-xl font-semibold text-white tracking-wide cursor-pointer hover:text-yellow-300 transition duration-200 ease-in-out"
+              onClick={() => router.push("/about")}
+            >
+              About
+            </div>
+            <div
+              className="text-xl font-semibold text-white tracking-wide cursor-pointer hover:text-yellow-300 transition duration-200 ease-in-out"
+              onClick={() => router.push("/contact")}
+            >
+              Contact
+            </div>
           </div>
           <button
             onClick={handleLogout}
