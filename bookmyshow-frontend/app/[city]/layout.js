@@ -19,28 +19,31 @@ export default function RootLayout({ children }) {
   return (
     <>
       <header>
-        <nav
-          className="flex justify-between items-center p-4 text-white shadow-lg bg-[#333333]"
-        >
-          <div className="text-2xl font-bold tracking-wide cursor-pointer" onClick={routerToHome}>
-            Movie Dekho
-          </div>
+        <nav className="flex justify-between items-center p-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-lg">
           <div
-            className="text-xl font-semibold tracking-wide cursor-pointer"
+            className="text-3xl font-extrabold text-white tracking-wide cursor-pointer hover:text-yellow-300 transition duration-200 ease-in-out"
             onClick={routerToHome}
           >
-            Movies
+            Movie Dekho
+          </div>
+          <div className="flex space-x-8">
+            <div
+              className="text-xl font-semibold text-white tracking-wide cursor-pointer hover:text-yellow-300 transition duration-200 ease-in-out"
+              onClick={routerToHome}
+            >
+              Movies
+            </div>
           </div>
           <button
             onClick={handleLogout}
-            className="bg-[#98788] hover:bg-[#0c0600] text-white font-medium px-4 py-2 rounded-lg shadow-md transition-transform duration-200 transform hover:scale-105"
+            className="bg-yellow-500 hover:bg-yellow-400 text-white font-medium px-6 py-2 rounded-lg shadow-lg transition-transform duration-200 transform hover:scale-105"
           >
             Logout
           </button>
         </nav>
       </header>
 
-      <main className="min-h-screen bg-gray-100 p-4">{children}</main>
+      <main className="min-h-screen bg-gray-100 p-6">{children}</main>
     </>
   );
 }
