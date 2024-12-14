@@ -2,7 +2,7 @@
 import { BE_URL } from "../constants/routes";
 import { setBookedShows } from "../redux/actions/actions";
 
-export const allBookingsApiCall = async (dispatch) => {
+export const allBookingsApiCall = async (dispatch,router) => {
   const url = `${BE_URL}/admin/bookings`;
   try {
     const response = await fetch(url,{
@@ -14,6 +14,7 @@ export const allBookingsApiCall = async (dispatch) => {
     if (data?.success == false) throw new Error(data.message);
     dispatch(setBookedShows(data?.bookings));
   } catch (error) {
-    alert(error.message);
+    console.log(error.message);
+    router.push("/admin/login");
   }
 };

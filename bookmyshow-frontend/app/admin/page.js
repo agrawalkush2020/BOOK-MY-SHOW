@@ -5,15 +5,17 @@ import {
   useDispatch,
   useSelector,
 } from "../../node_modules/react-redux/dist/react-redux";
+import { useRouter } from "next/navigation"; // Next.js routing
 
 const AdminPage = ({}) => {
   const dispatch = useDispatch();
   const [currentNav, setCurrentNav] = useState(null);
   const bookingsList = useSelector((state) => state.bookedShows);
+  const router = useRouter();
 
   useEffect(() => {
     setCurrentNav("bookings");
-    allBookingsApiCall(dispatch);
+    allBookingsApiCall(dispatch, router);
   }, []);
 
   return (
@@ -29,10 +31,13 @@ const AdminPage = ({}) => {
         <div className="flex flex-wrap">
           {bookingsList.map((show, index) => {
             return (
-              <div key={show._id} className="flex flex-col m-2 bg-slate-400 px-2">
-              <div>{show.show}</div>
-              <div>{show.username}</div>
-              <div>{show.seatNumber}</div>
+              <div
+                key={show._id}
+                className="flex flex-col m-2 bg-slate-400 px-2"
+              >
+                <div>{show.show}</div>
+                <div>{show.username}</div>
+                <div>{show.seatNumber}</div>
               </div>
             );
           })}

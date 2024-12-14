@@ -1,25 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 const Outerbody = ({}) => {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(null);
+  const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      router.push("New Delhi");
-      setIsLogin;
-      return;
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    if (decodedToken?.role == "public") {
+      router.push("/users/login");
     } else {
-      // router.push("/users/login");
-      setIsLogin(false);
-      return;
+      router.push("/admin/login");
     }
-  }, []);
-
-  if (isLogin == null) return <h1>loading</h1>;
+    return ;
+  }
 
   return (
     <div>
