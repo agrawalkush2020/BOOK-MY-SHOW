@@ -1,156 +1,157 @@
 "use client";
 import React, { useState } from "react";
 import Input from "./sharedComponents/Input";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
-const SignUp = ({
+const SignUp = () => {
+  const router = useRouter();
 
-}) => {
+  const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-    const router = useRouter();
+  // Handling functions for each input state
+  const handleUsernameChange = (value) => {
+    setUsername(value);
+  };
 
-    const [username,setUsername]= useState("");
-    const [phoneNumber, setPhoneNumber] = useState(null);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+  const handlePhoneNumberChange = (value) => {
+    // Keep phone number as a string to avoid issues with leading zeros
+    if (value.length <= 10) setPhoneNumber(value);
+  };
 
-    // Handling functions for each input state
+  const handleEmailChange = (value) => {
+    setEmail(value);
+  };
 
-    const handleUsernameChange= (value)=>{
-        setUsername(value);
+  const handlePasswordChange = (value) => {
+    setPassword(value);
+  };
+
+  const handleConfirmPasswordChange = (value) => {
+    setConfirmPassword(value);
+  };
+
+  function validateEmail(email) {
+    // Regular expression to validate email format
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
+  }
+
+  const makeTheCall = async (url, body) => {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      return response;
+    } catch (error) {
+      alert("Network error occurred. Please try again later.");
+    }
+  };
+
+  const handleTheSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+        console.log(typeof(phoneNumber));
+      if (phoneNumber.length !== 10) {
+        throw new Error('Please enter a 10 digit "Phone Number"!');
+      } else if (password !== confirmPassword) {
+        throw new Error("Passwords do not match!");
+      } else if (!validateEmail(email)) {
+        throw new Error('Please enter a "valid email"!');
+      }
+    } catch (error) {
+      alert(error.message);
+      return; // Stop further processing if there's an error
     }
 
-    const handlePhoneNumberChange = (value) => {
-        let parsedValue = Number(value);
-        debugger
-        if(parsedValue==0)parsedValue=null;
-        else if(Number.isNaN(parsedValue)) parsedValue=null;
-        setPhoneNumber(parsedValue);
+    let url = "http://127.0.0.1:3000/" + "users/signup/";
+    let body = {
+      username,
+      number: Number(phoneNumber),
+      email,
+      password,
+    };
+
+    let response = await makeTheCall(url, body);
+
+    if (response && response.ok) {
+      const data = await response.json();
+      if (data?.success) {
+        router.push("/users/login");
+      } else {
+        alert(data?.message);
+      }
+    } else {
+      alert("Something went wrong!");
     }
+  };
 
-    const handleEmailChange = (value) => {
-        setEmail(value);
-    }
+  return (
+    <div className="flex items-center justify-center bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">Sign Up Page</h1>
 
-    const handlePasswordChange = (value) => {
-        setPassword(value);
-    }
+        <form onSubmit={handleTheSubmit}>
+          <Input
+            name={"phoneNumber"}
+            type={"tel"}
+            label={"Phone Number:"}
+            value={phoneNumber}
+            placeholder={"Enter your phone number"}
+            handleChange={handlePhoneNumberChange}
+          />
+          <Input
+            name={"email"}
+            type={"email"}
+            label={"Email Address:"}
+            value={email}
+            placeholder={"Enter your email address"}
+            handleChange={handleEmailChange}
+          />
+          <Input
+            name={"username"}
+            type={"text"}
+            label={"Username:"}
+            value={username}
+            placeholder={"Enter your Username"}
+            handleChange={handleUsernameChange}
+          />
+          <Input
+            name={"password"}
+            type={"password"}
+            label={"Password:"}
+            value={password}
+            placeholder={"Enter your password"}
+            handleChange={handlePasswordChange}
+          />
+          <Input
+            name={"confirmPassword"}
+            type={"password"}
+            label={"Confirm Password:"}
+            value={confirmPassword}
+            placeholder={"Confirm your password"}
+            handleChange={handleConfirmPasswordChange}
+          />
 
-    const handleConfirmPasswordChange = (value) => {
-        setConfirmPassword(value);
-    }
-
-    function validateEmail(email) {
-        // Regular expression to validate email format
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return emailPattern.test(email);
-    }
-
-    const makeTheCall = async (url, body) => {
-        let response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-
-        return response;
-    }
-
-    const handleTheSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            if (phoneNumber.toString().length != 10) {   //phone number 10 digit ka hona chahiye 
-                throw new Error('Please put 10 digit "Phone Number"!')
-            }
-            else if (password !== confirmPassword) {
-                throw new Error('Passwords do not match!');
-            }
-            else if (!validateEmail(email)) {
-                throw new Error('please enter a "valid email"!!')
-            }
-
-        } catch (error) {
-            alert(error.message);
-            return; // Stop further processing if there's an error
-        }
-
-        let url = 'http://127.0.0.1:3000/' + "users/signup/";
-        let body = {
-            username,
-            number: phoneNumber,
-            email: email,
-            password: password,
-        };
-        let response = await makeTheCall(url, body);
-        
-        if (response.ok) {
-            const data = await response.json();
-            if (data?.success) {
-                router.push('/users/login');
-            }
-            else {
-                alert(data?.message);
-            }
-        }
-        else {
-            alert('Some thing went Wrong!!');
-        }
-    }
-
-    console.log("number",phoneNumber, typeof(phoneNumber));
-
-    return (
-        <div>
-            <form onSubmit={handleTheSubmit}>
-
-                <Input
-                    name={"phoneNumber"}
-                    type={"tel"}
-                    label={"Phone Number:"}
-                    value={phoneNumber ?? ""} // Handle undefined values gracefully
-                    placeHolder={"Enter your phone number"}
-                    handleChange={handlePhoneNumberChange}
-                />
-                <Input
-                    name={"email"}
-                    type={"email"}
-                    label={"Email Address:"}
-                    value={email}
-                    placeHolder={"Enter your email address"}
-                    handleChange={handleEmailChange}
-                />
-                <Input
-                    name={"username"}
-                    type={"text"}
-                    label={"Username:"}
-                    value={username}
-                    placeHolder={"Enter your Username"}
-                    handleChange={handleUsernameChange}
-                />
-                <Input
-                    name={"password"}
-                    type={"password"}
-                    label={"Password:"}
-                    value={password}
-                    placeHolder={"Enter your password"}
-                    handleChange={handlePasswordChange}
-                />
-                <Input
-                    name={"confirmPassword"}
-                    type={"password"}
-                    label={"Confirm Password:"}
-                    value={confirmPassword}
-                    placeHolder={"Confirm your password"}
-                    handleChange={handleConfirmPasswordChange}
-                />
-
-                <button className="border-red-800 border p-[5px]" type="submit">Sign Up</button>
-            </form>
-        </div>
-    );
-}
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg mt-4 w-full"
+            type="submit"
+          >
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default SignUp;
