@@ -5,17 +5,18 @@ import SearchableDropdown from "../../components/SearchableDropdown";
 import { BE_URL } from "../../constants/routes";
 import { cityOptions } from "../../constants/info";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "../../node_modules/next/navigation";
 
 const AllMovies = () => {
   const [city, setCity] = useState("");
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);  // To store error messages
   const router = useRouter();
+  const [loading, setLoading] = useState(null);
 
   const handleCityChange = async (newCity) => {
     setCity(newCity);
     fetchMovies(newCity);
-    const newUrl = `/${encodeURIComponent(newCity)}`;  
+    const newUrl = `/${encodeURIComponent(newCity)}`;
     window.history.pushState(null, "", newUrl);
   };
 
@@ -34,9 +35,11 @@ const AllMovies = () => {
 
       const data = await response.json();
       setMovies(data?.movies);
-      setError(null); // Reset error on successful fetch
     } catch (error) {
-      setError(error.message); // Set error message
+      console.log(error.message);
+      alert(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,7 +47,7 @@ const AllMovies = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("You are not logged in. Redirecting to login page.");
-      router.push("/users/login"); 
+      router.push("/users/login");
       return;
     }
 
@@ -53,6 +56,8 @@ const AllMovies = () => {
     handleCityChange(param);
   }, []);
 
+  if (loading == null) return <div>"loading"</div>;
+
   return (
     <div>
       <SearchableDropdown
@@ -60,9 +65,7 @@ const AllMovies = () => {
         handleChange={handleCityChange}
         selectedValue={city}
       />
-      
-      {error && <div className="text-red-500">{`Error: ${error}`}</div>}
-      
+
       {!movies || movies.length === 0 ? (
         <div>No movies found</div>
       ) : (
