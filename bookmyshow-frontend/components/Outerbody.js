@@ -10,9 +10,9 @@ const Outerbody = ({}) => {
   if (token) {
     const decodedToken = jwtDecode(token);
     if (decodedToken?.role === "public") {
-      router.push("/users/login");
+      router.push("/New Delhi");
     } else {
-      router.push("/admin/login");
+      router.push("/admin");
     }
     return;
   }
