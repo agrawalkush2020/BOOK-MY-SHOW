@@ -11,7 +11,7 @@ export default function LoginPage() {
 
   if (token) {
     const decodedToken = jwtDecode(token);
-    if (decodedToken?.role == "public") {
+    if (decodedToken?.role === "public") {
       router.push("/New Delhi");
     } else {
       router.push("/admin");
@@ -20,9 +20,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div>
-      <h1>Login Page</h1>
-      <div>
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center text-gray-800">
+      <h1 className="text-3xl font-bold mb-6">Login Page</h1>
+      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
         <Login user={"Admin"} />
       </div>
     </div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 
@@ -9,7 +9,7 @@ const Outerbody = ({}) => {
 
   if (token) {
     const decodedToken = jwtDecode(token);
-    if (decodedToken?.role == "public") {
+    if (decodedToken?.role === "public") {
       router.push("/users/login");
     } else {
       router.push("/admin/login");
@@ -19,15 +19,15 @@ const Outerbody = ({}) => {
 
   const handleOnClick = (user) => {
     router.push(`/${user}/login`);
-    return ;
+    return;
   };
 
   return (
-    <div>
-      Login as
-      <div className="flex">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-800">
+      <h1 className="text-2xl font-semibold mb-4">Login as</h1>
+      <div className="flex space-x-4">
         <button
-          className="border border-blue-500 m-[10px]"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 ease-in-out"
           onClick={() => {
             handleOnClick("users");
           }}
@@ -35,7 +35,7 @@ const Outerbody = ({}) => {
           User
         </button>
         <button
-          className="border border-blue-500 m-[10px]"
+          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200 ease-in-out"
           onClick={() => {
             handleOnClick("admin");
           }}

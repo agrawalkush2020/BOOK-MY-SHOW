@@ -26,7 +26,7 @@ const Login = ({ user = "" }) => {
 
     try {
       const url =
-        user == "public"
+        user === "public"
           ? "http://127.0.0.1:3000/users/login/"
           : "http://127.0.0.1:3000/admin/login/";
 
@@ -45,9 +45,9 @@ const Login = ({ user = "" }) => {
         const data = await response.json();
         if (data?.success && data?.token) {
           localStorage.setItem("token", `Bearer ${data.token}`);
-          if(user=="public"){
+          if (user === "public") {
             router.push("/New Delhi");
-          }else{
+          } else {
             router.push("/admin");
           }
         }
@@ -61,7 +61,13 @@ const Login = ({ user = "" }) => {
   };
 
   return (
-    <form onSubmit={handleTheSubmit}>
+    <form
+      onSubmit={handleTheSubmit}
+      className="max-w-md mx-auto bg-white shadow-md rounded-lg p-8 mt-10"
+    >
+      <h1 className="text-2xl font-bold text-center mb-6">
+        {user === "public" ? "User Login" : "Admin Login"}
+      </h1>
       <Input
         name={"username"}
         type={"text"}
@@ -78,7 +84,10 @@ const Login = ({ user = "" }) => {
         placeHolder={"Enter your password"}
         handleChange={handlePasswordChange}
       />
-      <button className="bg-orange-600 p-[5px]" type="submit">
+      <button
+        className="w-full bg-orange-600 text-white py-2 mt-4 rounded hover:bg-orange-700 transition duration-200"
+        type="submit"
+      >
         Log In
       </button>
     </form>

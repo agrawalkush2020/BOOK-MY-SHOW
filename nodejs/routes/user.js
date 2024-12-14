@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
       password,
     });
     if (!userExist) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: "User does not Exist!, Incorrect username or password",
       });
