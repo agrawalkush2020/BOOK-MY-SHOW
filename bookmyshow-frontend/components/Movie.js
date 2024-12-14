@@ -1,7 +1,5 @@
 "use client";
-import react from "react";
-import makeTheCall from "../utils/api";
-import { useDispatch } from "react-redux"; // Import useDispatch
+import React from "react";
 import { useRouter } from "next/navigation";
 
 const Movie = ({
@@ -10,42 +8,44 @@ const Movie = ({
   id = -1,
   city = "",
   rating = 10,
-  // handleOnClick = ()=>{}
 }) => {
-  console.log("id", id);
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const handleOnClick = async (movieName) => {
-    const url = window.location.pathname;
-    const newUrl = `${url}/${movieName}`;
-    router.push(newUrl);
+    try {
+      const url = window.location.pathname;
+      const newUrl = `${url}/${movieName}`;
+      router.push(newUrl); // Navigate to the movie details page
+    } catch (error) {
+      console.error("Error during navigation:", error);
+    }
   };
 
   return (
     <div
-      onClick={() => {
-        handleOnClick(name);
-      }}
-      className="w-[230px] cursor-pointer "
+      onClick={() => handleOnClick(name)} // Trigger the click event to navigate
+      className="w-[230px] cursor-pointer rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
     >
       <div>
+        {/* Movie Image */}
         <img
-          src={`/assets/${photo}`}
-          alt="Group Icon"
+          src={`/assets/${photo}`} // Path to movie image
+          alt={name}
           width="100%"
           height="auto"
+          className="rounded-t-lg"
         />
-        <div className="flex">
+        {/* Rating Section */}
+        <div className="flex items-center mt-2">
           <img
-            src={`/assets/star.png`}
-            alt="Group Icon"
-            className="h-[20px] w-[20px]"
+            src="/assets/star.png" // Star image for rating
+            alt="Rating Star"
+            className="h-[20px] w-[20px] mr-1"
           />
-          <span className="bg-[#98788]">{rating}/10</span>
+          <span className="text-xl font-semibold">{rating}/10</span>
         </div>
       </div>
-      <div>{name}</div>
+      <div className="mt-2 text-center font-medium">{name}</div>
     </div>
   );
 };

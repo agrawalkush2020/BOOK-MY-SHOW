@@ -6,9 +6,10 @@ import { BE_URL } from "../../constants/routes";
 import { cityOptions } from "../../constants/info";
 import { useRouter } from "next/navigation";
 
-const AllMovies = ({}) => {
+const AllMovies = () => {
   const [city, setCity] = useState("");
   const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);  // To store error messages
   const router = useRouter();
 
   const handleCityChange = async (newCity) => {
@@ -29,16 +30,17 @@ const AllMovies = ({}) => {
         }
       );
 
+      if (!response.ok) throw new Error("Failed to fetch movies.");
+
       const data = await response.json();
-      if (!response.ok) throw new Error("error");
       setMovies(data?.movies);
+      setError(null); // Reset error on successful fetch
     } catch (error) {
-      alert(`error:${error.message}`);
+      setError(error.message); // Set error message
     }
   };
 
   useEffect(() => {
-
     const token = localStorage.getItem("token");
     if (!token) {
       alert("You are not logged in. Redirecting to login page.");
@@ -48,7 +50,6 @@ const AllMovies = ({}) => {
 
     const url = window.location.pathname; // Gets "/New Delhi"
     const param = decodeURIComponent(url.split("/")[1]); // Extracts "New Delhi"
-    console.log(param);
     handleCityChange(param);
   }, []);
 
@@ -59,6 +60,9 @@ const AllMovies = ({}) => {
         handleChange={handleCityChange}
         selectedValue={city}
       />
+      
+      {error && <div className="text-red-500">{`Error: ${error}`}</div>}
+      
       {!movies || movies.length === 0 ? (
         <div>No movies found</div>
       ) : (

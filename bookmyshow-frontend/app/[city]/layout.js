@@ -20,28 +20,27 @@ export default function RootLayout({ children }) {
     <>
       <header>
         <nav
-          className="flex justify-between items-center p-4 text-white shadow-lg"
-          style={{ backgroundColor: "#333333" }}
+          className="flex justify-between items-center p-4 text-white shadow-lg bg-[#333333]"
         >
-          <div className="text-2xl font-bold tracking-wide">Movie Dekho</div>
+          <div className="text-2xl font-bold tracking-wide cursor-pointer" onClick={routerToHome}>
+            Movie Dekho
+          </div>
           <div
-            className="text-2xl font-bold tracking-wide cursor-pointer"
+            className="text-xl font-semibold tracking-wide cursor-pointer"
             onClick={routerToHome}
           >
             Movies
           </div>
           <button
             onClick={handleLogout}
-            className="bg-[#98788] hover:bg-[#0c0600] text-white font-medium px-4 
-            py-2 rounded-lg shadow-md transition-transform duration-200 transform 
-            hover:scale-105"
+            className="bg-[#98788] hover:bg-[#0c0600] text-white font-medium px-4 py-2 rounded-lg shadow-md transition-transform duration-200 transform hover:scale-105"
           >
             Logout
           </button>
         </nav>
       </header>
 
-      <main>{children}</main>
+      <main className="min-h-screen bg-gray-100 p-4">{children}</main>
     </>
   );
 }
