@@ -13,6 +13,13 @@ const AdminPage = ({}) => {
   const bookingsList = useSelector((state) => state.bookedShows);
   const router = useRouter();
 
+  const handleLogout = () => {
+    // Clear authentication data
+    localStorage.removeItem("token");
+    alert("You have been logged out.");
+    router.push("/admin/login");
+  };
+
   useEffect(() => {
     allBookingsApiCall(dispatch, router);
   }, []);
@@ -20,39 +27,50 @@ const AdminPage = ({}) => {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* Navigation */}
-      <nav className="flex justify-center space-x-6 bg-blue-500 text-white py-4">
-        <div
-          className={`cursor-pointer ${
-            currentNav === "bookings" ? "font-bold underline" : ""
-          }`}
-          onClick={() => setCurrentNav("bookings")}
-        >
-          Bookings
+      <nav className="relative flex items-center bg-blue-500 text-white py-4 px-6">
+        {/* Centered Navigation Links */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex space-x-6">
+          <div
+            className={`cursor-pointer ${
+              currentNav === "bookings" ? "font-bold underline" : ""
+            }`}
+            onClick={() => setCurrentNav("bookings")}
+          >
+            Bookings
+          </div>
+          <div
+            className={`cursor-pointer ${
+              currentNav === "create-show" ? "font-bold underline" : ""
+            }`}
+            onClick={() => setCurrentNav("create-show")}
+          >
+            Create Show
+          </div>
+          <div
+            className={`cursor-pointer ${
+              currentNav === "upload-movie" ? "font-bold underline" : ""
+            }`}
+            onClick={() => setCurrentNav("upload-movie")}
+          >
+            Upload Movie
+          </div>
+          <div
+            className={`cursor-pointer ${
+              currentNav === "users" ? "font-bold underline" : ""
+            }`}
+            onClick={() => setCurrentNav("users")}
+          >
+            Users
+          </div>
         </div>
-        <div
-          className={`cursor-pointer ${
-            currentNav === "create-show" ? "font-bold underline" : ""
-          }`}
-          onClick={() => setCurrentNav("create-show")}
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="ml-auto bg-yellow-500 hover:bg-yellow-400 text-white font-medium px-6 py-2 rounded-lg shadow-lg transition-transform duration-200 transform hover:scale-105"
         >
-          Create Show
-        </div>
-        <div
-          className={`cursor-pointer ${
-            currentNav === "upload-movie" ? "font-bold underline" : ""
-          }`}
-          onClick={() => setCurrentNav("upload-movie")}
-        >
-          Upload Movie
-        </div>
-        <div
-          className={`cursor-pointer ${
-            currentNav === "users" ? "font-bold underline" : ""
-          }`}
-          onClick={() => setCurrentNav("users")}
-        >
-          Users
-        </div>
+          Logout
+        </button>
       </nav>
 
       {/* Bookings Section */}
